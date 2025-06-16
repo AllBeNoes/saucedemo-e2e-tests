@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Playwright test reports
+test-results/
+playwright-report/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+*.log
+
+# VSCode settings (если не хочешь делиться)
+.vscode/
