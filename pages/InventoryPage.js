@@ -22,4 +22,11 @@ exports.InventoryPage = class InventoryPage {
   async goToCart() {
     await this.cartIcon.click();
   }
+  
+  async getItemNames() {
+  return await this.page.$$eval('.inventory_item_name', items =>
+    items.map(item => item.textContent.trim())
+  );
+  }
+
 };
