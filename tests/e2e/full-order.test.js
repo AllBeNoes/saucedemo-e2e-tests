@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { createPages } = require('../../pages/pageFactory');
-
+require('dotenv').config();
 
 test('Полное оформление заказа', async ({ page }) => {
   const {
@@ -25,8 +25,13 @@ test('Полное оформление заказа', async ({ page }) => {
   });
 
   await test.step('Перейти к оформлению и заполнить форму', async () => {
-    await cartPage.clickCheckout();
-    await checkoutPage.fillForm('Jane', 'Doe', '12345');
+	await cartPage.clickCheckout();
+	
+	const firstname = process.env.DEFAULT_FIRST_NAME;
+	const lastname = process.env.DEFAULT_LAST_NAME;
+	const postalCode = process.env.DEFAULT_POSTAL_CODE; 
+	
+    await checkoutPage.fillForm(firstname, lastname, postalCode);
     await checkoutPage.submit();
   });
 

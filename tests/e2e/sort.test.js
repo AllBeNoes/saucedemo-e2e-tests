@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { createPages } = require('../../pages/pageFactory');
-
+require('dotenv').config();
 
 test('Сортировка товаров по возрастанию цены', async ({ page }) => {
   const {
