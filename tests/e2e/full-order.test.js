@@ -30,19 +30,19 @@ test('Полное оформление заказа', async ({ page }) => {
 
   await test.step('Проверить, что есть товары и отображается сумма', async () => {
     const itemCount = await overview.getItemCount();
-    expect(itemCount).toBeGreaterThan(0);
+    expect.soft(itemCount).toBeGreaterThan(0);
 
     const total = await overview.getTotalText();
-    expect(total).toMatch(/\$\d+\.\d{2}/);
+    expect.soft(total).toMatch(/\$\d+\.\d{2}/);
 
     const isFinishVisible = await overview.isFinishButtonVisible();
-    expect(isFinishVisible).toBeTruthy();
+    expect.soft(isFinishVisible).toBeTruthy();
   });
 
   await test.step('Завершить оформление и проверить сообщение', async () => {
     await overview.finishCheckout();
     const message = await overview.getConfirmationMessage();
-    expect(message).toContain(
+    expect.soft(message).toContain(
       'Your order has been dispatched, and will arrive just as fast as the pony can get there!'
     );
   });

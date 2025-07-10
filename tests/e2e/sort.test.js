@@ -19,12 +19,12 @@ test('Сортировка товаров по возрастанию цены',
     const prices = await inventory.getItemPrices();
     const numericPrices = prices.map(p => parseFloat(p.replace('$', '')));
     const sorted = [...numericPrices].sort((a, b) => a - b);
-    expect(numericPrices).toEqual(sorted);
+    expect.soft(numericPrices).toEqual(sorted);
   });
 
   await test.step('Проверить, что для каждой цены есть соответствующее имя товара', async () => {
     const itemNames = await inventory.getItemNames();
     const prices = await inventory.getItemPrices();
-    expect(itemNames.length).toBe(prices.length);
+    expect.soft(itemNames.length).toBe(prices.length);
   });
 });

@@ -31,7 +31,7 @@ test('Попытка оформления заказа без Zip/Postal Code', 
 
   await test.step('Проверить сообщение об ошибке и текущий URL', async () => {
     const error = await checkout.getErrorMessage();
-    expect(error).toContain('Error: Postal Code is required');
-    await expect(page).toHaveURL(/checkout-step-one/);
+    expect.soft(error).toContain('Error: Postal Code is required');
+    await expect.soft(page).toHaveURL(/checkout-step-one/);
   });
 });

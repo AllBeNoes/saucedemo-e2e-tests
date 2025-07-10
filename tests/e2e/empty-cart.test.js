@@ -27,17 +27,17 @@ test('Оформление заказа с пустой корзиной', async
 
   await test.step('Проверить, что корзина пуста и сумма равна $0.00', async () => {
     const itemCount = await overview.getItemCount();
-    expect(itemCount).toBe(0);
+    expect.soft(itemCount).toBe(0);
 
     const total = await overview.getTotalText();
     if (total) {
-      expect(total).toMatch(/\$0\.00/);
+      expect.soft(total).toMatch(/\$0\.00/);
     }
   });
 
   await test.step('Завершить оформление и проверить сообщение', async () => {
     await overview.finishCheckout();
     const message = await overview.getConfirmationMessage();
-    expect(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
+    expect.soft(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
   });
 });
