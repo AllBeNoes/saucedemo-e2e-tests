@@ -10,7 +10,7 @@ test('Попытка оформления заказа без Zip/Postal Code', 
   const cart = new CartPage(page);
   const checkout = new CheckoutPage(page);
 
-  await page.goto('https://www.saucedemo.com');
+  await page.goto('/');
   await login.login('standard_user', 'secret_sauce');
   await inventory.addFirstItemToCart();
   await inventory.goToCart();

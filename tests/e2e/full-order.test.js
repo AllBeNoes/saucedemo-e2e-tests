@@ -12,7 +12,7 @@ test('Полное оформление заказа', async ({ page }) => {
   const checkout = new CheckoutPage(page);
   const overview = new CheckoutOverviewPage(page);
 
-  await page.goto('https://www.saucedemo.com');
+  await page.goto('/');
   await login.login('standard_user', 'secret_sauce');
   await inventory.addFirstItemToCart();
   await inventory.goToCart();

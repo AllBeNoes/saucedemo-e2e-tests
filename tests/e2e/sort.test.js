@@ -3,7 +3,7 @@ const { LoginPage } = require('../../pages/LoginPage');
 const { InventoryPage } = require('../../pages/InventoryPage');
 
 test('Сортировка товаров по возрастанию цены', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com');
+  await page.goto('/');
   const loginPage = new LoginPage(page);
   const inventory = new InventoryPage(page);
 

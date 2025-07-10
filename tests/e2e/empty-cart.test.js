@@ -8,9 +8,9 @@ test('Оформление заказа с пустой корзиной', async
   const login = new LoginPage(page);
   const cart = new CartPage(page);
 
-  await page.goto('https://www.saucedemo.com');
+  await page.goto('/');
   await login.login('standard_user', 'secret_sauce');
-  await page.goto('https://www.saucedemo.com/cart.html');
+  await page.goto('/cart.html');
   await cart.clickCheckout();
 
   const checkout = new CheckoutPage(page);
