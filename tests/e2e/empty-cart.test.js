@@ -7,28 +7,37 @@ const { CheckoutOverviewPage } = require('../../pages/CheckoutOverviewPage');
 test('Оформление заказа с пустой корзиной', async ({ page }) => {
   const login = new LoginPage(page);
   const cart = new CartPage(page);
-
-  await page.goto('/');
-  await login.login('standard_user', 'secret_sauce');
-  await page.goto('/cart.html');
-  await cart.clickCheckout();
-
   const checkout = new CheckoutPage(page);
-  await checkout.fillForm('Empty', 'Cart', '11111');
-  await checkout.submit();
-
   const overview = new CheckoutOverviewPage(page);
 
-  const itemCount = await overview.getItemCount();
-  expect(itemCount).toBe(0);
+  await test.step('Открыть главную страницу и авторизоваться', async () => {
+    await page.goto('/');
+    await login.login('standard_user', 'secret_sauce');
+  });
 
-  const total = await overview.getTotalText();
-  if (total) {
-    expect(total).toMatch(/\$0\.00/);
-  }
+  await test.step('Перейти напрямую в корзину и начать оформление', async () => {
+    await page.goto('/cart.html');
+    await cart.clickCheckout();
+  });
 
-  await overview.finishCheckout();
+  await test.step('Заполнить форму покупателя и продолжить', async () => {
+    await checkout.fillForm('Empty', 'Cart', '11111');
+    await checkout.submit();
+  });
 
-  const message = await overview.getConfirmationMessage();
-  expect(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
+  await test.step('Проверить, что корзина пуста и сумма равна $0.00', async () => {
+    const itemCount = await overview.getItemCount();
+    expect(itemCount).toBe(0);
+
+    const total = await overview.getTotalText();
+    if (total) {
+      expect(total).toMatch(/\$0\.00/);
+    }
+  });
+
+  await test.step('Завершить оформление и проверить сообщение', async () => {
+    await overview.finishCheckout();
+    const message = await overview.getConfirmationMessage();
+    expect(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
+  });
 });

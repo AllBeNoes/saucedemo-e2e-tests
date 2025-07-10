@@ -10,15 +10,28 @@ test('Попытка оформления заказа без Zip/Postal Code', 
   const cart = new CartPage(page);
   const checkout = new CheckoutPage(page);
 
-  await page.goto('/');
-  await login.login('standard_user', 'secret_sauce');
-  await inventory.addFirstItemToCart();
-  await inventory.goToCart();
-  await cart.clickCheckout();
-  await checkout.fillForm('John', 'Doe', '');
-  await checkout.submit();
+  await test.step('Открыть главную страницу и авторизоваться', async () => {
+    await page.goto('/');
+    await login.login('standard_user', 'secret_sauce');
+  });
 
-  const error = await checkout.getErrorMessage();
-  expect(error).toContain('Error: Postal Code is required');
-  await expect(page).toHaveURL(/checkout-step-one/);
+  await test.step('Добавить первый товар и перейти в корзину', async () => {
+    await inventory.addFirstItemToCart();
+    await inventory.goToCart();
+  });
+
+  await test.step('Перейти к оформлению заказа', async () => {
+    await cart.clickCheckout();
+  });
+
+  await test.step('Заполнить форму без Zip/Postal Code и отправить', async () => {
+    await checkout.fillForm('John', 'Doe', '');
+    await checkout.submit();
+  });
+
+  await test.step('Проверить сообщение об ошибке и текущий URL', async () => {
+    const error = await checkout.getErrorMessage();
+    expect(error).toContain('Error: Postal Code is required');
+    await expect(page).toHaveURL(/checkout-step-one/);
+  });
 });
