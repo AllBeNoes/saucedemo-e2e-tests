@@ -1,8 +1,8 @@
 const { test, expect } = require('@playwright/test');
-const { LoginPage } = require('../pages/LoginPage');
-const { CartPage } = require('../pages/CartPage');
-const { CheckoutPage } = require('../pages/CheckoutPage');
-const { CheckoutOverviewPage } = require('../pages/CheckoutOverviewPage');
+const { LoginPage } = require('../../pages/LoginPage');
+const { CartPage } = require('../../pages/CartPage');
+const { CheckoutPage } = require('../../pages/CheckoutPage');
+const { CheckoutOverviewPage } = require('../../pages/CheckoutOverviewPage');
 
 test('Оформление заказа с пустой корзиной', async ({ page }) => {
   const login = new LoginPage(page);
