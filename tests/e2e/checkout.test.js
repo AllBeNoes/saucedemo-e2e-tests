@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { createPages } = require('../../pages/pageFactory');
-
+require('dotenv').config();
 
 test('Попытка оформления заказа без Zip/Postal Code', async ({ page }) => {
   const {
@@ -29,7 +29,11 @@ test('Попытка оформления заказа без Zip/Postal Code', 
   });
 
   await test.step('Заполнить форму без Zip/Postal Code и отправить', async () => {
-    await checkoutPage.fillForm('John', 'Doe', '');
+	const firstname = process.env.DEFAULT_FIRST_NAME;
+	const lastname = process.env.DEFAULT_LAST_NAME;
+	const postalCode = ''; 
+	
+    await checkoutPage.fillForm(firstname, lastname, postalCode);
     await checkoutPage.submit();
   });
 
