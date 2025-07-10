@@ -1,43 +1,43 @@
 const { test, expect } = require('@playwright/test');
-const { LoginPage } = require('../../pages/LoginPage');
-const { CartPage } = require('../../pages/CartPage');
-const { CheckoutPage } = require('../../pages/CheckoutPage');
-const { CheckoutOverviewPage } = require('../../pages/CheckoutOverviewPage');
+const { createPages } = require('../../pages/pageFactory');
 
 test('Оформление заказа с пустой корзиной', async ({ page }) => {
-  const login = new LoginPage(page);
-  const cart = new CartPage(page);
-  const checkout = new CheckoutPage(page);
-  const overview = new CheckoutOverviewPage(page);
+  const {
+      loginPage,
+      inventoryPage,
+      cartPage,
+      checkoutPage,
+      checkoutOverviewPage
+  } = createPages(page);
 
   await test.step('Открыть главную страницу и авторизоваться', async () => {
     await page.goto('/');
-    await login.login('standard_user', 'secret_sauce');
+    await loginPage.login('standard_user', 'secret_sauce');
   });
 
   await test.step('Перейти напрямую в корзину и начать оформление', async () => {
     await page.goto('/cart.html');
-    await cart.clickCheckout();
+    await cartPage.clickCheckout();
   });
 
   await test.step('Заполнить форму покупателя и продолжить', async () => {
-    await checkout.fillForm('Empty', 'Cart', '11111');
-    await checkout.submit();
+    await checkoutPage.fillForm('Empty', 'Cart', '11111');
+    await checkoutPage.submit();
   });
 
   await test.step('Проверить, что корзина пуста и сумма равна $0.00', async () => {
-    const itemCount = await overview.getItemCount();
+    const itemCount = await checkoutOverviewPage.getItemCount();
     expect.soft(itemCount).toBe(0);
 
-    const total = await overview.getTotalText();
+    const total = await checkoutOverviewPage.getTotalText();
     if (total) {
       expect.soft(total).toMatch(/\$0\.00/);
     }
   });
 
   await test.step('Завершить оформление и проверить сообщение', async () => {
-    await overview.finishCheckout();
-    const message = await overview.getConfirmationMessage();
+    await checkoutOverviewPage.finishCheckout();
+    const message = await checkoutOverviewPage.getConfirmationMessage();
     expect.soft(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
   });
 });

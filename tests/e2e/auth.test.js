@@ -1,8 +1,14 @@
 const { test, expect } = require('@playwright/test');
-const { LoginPage } = require('../../pages/LoginPage');
+const { createPages } = require('../../pages/pageFactory');
 
 test('Переход к оформлению заказа без авторизации', async ({ page }) => {
-  const loginPage = new LoginPage(page);
+  const {
+      loginPage,
+      inventoryPage,
+      cartPage,
+      checkoutPage,
+      checkoutOverviewPage
+  } = createPages(page);
 
   await test.step('Перейти по ссылке /cart.html', async () => {
     await page.goto('/cart.html');
