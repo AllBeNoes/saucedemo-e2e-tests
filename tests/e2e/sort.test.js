@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { createPages } = require('../../pages/pageFactory');
 
+
 test('Сортировка товаров по возрастанию цены', async ({ page }) => {
   const {
       loginPage,
@@ -11,8 +12,11 @@ test('Сортировка товаров по возрастанию цены',
   } = createPages(page);
 
   await test.step('Открыть сайт и авторизоваться', async () => {
+	const username = process.env.STANDARD_USER;
+    const password = process.env.STANDARD_PASS;
+	
     await page.goto('/');
-    await loginPage.login('standard_user', 'secret_sauce');
+    await loginPage.login(username, password);
   });
 
   await test.step('Выбрать сортировку по возрастанию цены', async () => {

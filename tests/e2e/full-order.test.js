@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { createPages } = require('../../pages/pageFactory');
 
+
 test('Полное оформление заказа', async ({ page }) => {
   const {
       loginPage,
@@ -11,8 +12,11 @@ test('Полное оформление заказа', async ({ page }) => {
   } = createPages(page);
 
   await test.step('Открыть главную страницу и авторизоваться', async () => {
+	const username = process.env.STANDARD_USER;
+    const password = process.env.STANDARD_PASS;
+	
     await page.goto('/');
-    await loginPage.login('standard_user', 'secret_sauce');
+    await loginPage.login(username, password);
   });
 
   await test.step('Добавить товар в корзину и перейти в неё', async () => {

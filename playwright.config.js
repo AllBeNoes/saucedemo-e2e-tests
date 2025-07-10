@@ -1,8 +1,10 @@
 // playwright.config.js
+require('dotenv').config();
+
 module.exports = {
   use: {
     headless: true,
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: process.env.BASE_URL,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
