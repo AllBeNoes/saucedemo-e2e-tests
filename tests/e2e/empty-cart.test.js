@@ -19,10 +19,10 @@ test('Оформление заказа с пустой корзиной', async
 
   const overview = new CheckoutOverviewPage(page);
 
-  const itemCount = await page.locator('.cart_item').count();
+  const itemCount = await overview.getItemCount();
   expect(itemCount).toBe(0);
 
-  const total = await page.locator('.summary_total_label').textContent();
+  const total = await overview.getTotalText();
   if (total) {
     expect(total).toMatch(/\$0\.00/);
   }
@@ -30,5 +30,5 @@ test('Оформление заказа с пустой корзиной', async
   await overview.finishCheckout();
 
   const message = await overview.getConfirmationMessage();
-  expect(message).toContain('Thank you for your order!');
+  expect(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
 });

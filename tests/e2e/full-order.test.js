@@ -30,5 +30,5 @@ test('Полное оформление заказа', async ({ page }) => {
   await overview.finishCheckout();
 
   const message = await overview.getConfirmationMessage();
-  expect(message).toContain('Thank you for your order!');
+  expect(message).toContain('Your order has been dispatched, and will arrive just as fast as the pony can get there!');
 });
