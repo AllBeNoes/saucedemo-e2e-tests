@@ -1,9 +1,13 @@
 const { test, expect } = require('@playwright/test');
+const { LoginPage } = require('../../pages/LoginPage');
 
 test('Переход к оформлению заказа без авторизации', async ({ page }) => {
   await page.goto('/cart.html');
 
   await expect(page).toHaveURL(/.*saucedemo\.com\/$/);
-  await expect(page.locator('input[data-test="username"]')).toBeVisible();
-  await expect(page.locator('input[data-test="password"]')).toBeVisible();
+  
+  const loginPage = new LoginPage(page);
+  
+  await expect(loginPage.usernameInput).toBeVisible();
+  await expect(loginPage.passwordInput).toBeVisible();
 });

@@ -20,13 +20,15 @@ test('Полное оформление заказа', async ({ page }) => {
   await checkout.fillForm('Jane', 'Doe', '12345');
   await checkout.submit();
 
-  const itemCount = await page.locator('.cart_item').count();
+  const itemCount = await overview.getItemCount();
   expect(itemCount).toBeGreaterThan(0);
 
-  const total = await page.locator('.summary_total_label').textContent();
+  const total = await overview.getTotalText();
   expect(total).toMatch(/\$\d+\.\d{2}/);
 
-  await expect(page.locator('button[data-test="finish"]')).toBeVisible();
+  const isFinishVisible = await overview.isFinishButtonVisible();
+  expect(isFinishVisible).toBeTruthy();
+
   await overview.finishCheckout();
 
   const message = await overview.getConfirmationMessage();
