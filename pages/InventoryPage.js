@@ -5,6 +5,7 @@ exports.InventoryPage = class InventoryPage {
     this.itemPrices = page.locator('[data-test="inventory-item-price"]');
     this.addToCartButton = page.locator('button[data-test^="add-to-cart"]');
     this.cartIcon = page.locator('[data-test="shopping-cart-link"]');
+	this.itemNames = page.locator('.inventory_item_name');
   }
 
   async sortByPriceLowToHigh() {
@@ -24,9 +25,7 @@ exports.InventoryPage = class InventoryPage {
   }
   
   async getItemNames() {
-  return await this.page.$$eval('.inventory_item_name', items =>
-    items.map(item => item.textContent.trim())
-  );
+    return await this.itemNames.allTextContents();
   }
 
 };
